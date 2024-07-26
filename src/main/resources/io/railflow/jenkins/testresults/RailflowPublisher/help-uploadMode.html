@@ -1,0 +1,27 @@
+<div>
+    <b>Test case upload mode:</b>
+    <ul>
+        <li><b>Create new test cases and do not overwrite existing ones:</b><br/>
+            If test case not found, create a new test case within specified Test Case Path.<br/>
+            If test case found, do not update the test case.<br/>
+            Value for pipeline: CREATE_NO_UPDATE
+        </li>
+        <li><b>Create new cases and overwrite existing ones:</b><br/>
+            If test case not found, create a new test case within specified Test Case Path.<br/>
+            If test case found, update the test case.<br/>
+            Value for pipeline: CREATE_UPDATE
+        </li>
+        <li>
+            <b>Do not create new cases and overwrite existing ones:</b><br/>
+            If test case not found, do not create a new test case and the corresponding test result will not be uploaded into TestRail.<br/>
+            If test case found, update the test case.<br/>
+            Value for pipeline: NO_CREATE_UPDATE
+        </li>
+        <li>
+            <b>Do not create new cases and do not overwrite existing ones:</b><br/>
+            If test case not found, do not create a new test case and the corresponding test results will not be uploaded into TestRail.<br/>
+            If test case found, do not update the test case.<br/>
+            Value for pipeline: NO_CREATE_NO_UPDATE
+        </li>
+    </ul>
+</div>

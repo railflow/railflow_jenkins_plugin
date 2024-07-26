@@ -1,0 +1,8 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core"
+		 xmlns:t="/lib/hudson"
+>
+	<t:summary icon="/plugin/railflow-jenkins-plugin/icons/railflow-48.png">
+		<a href="${it.urlName}" target="_blank">${it.urlName}</a>
+	</t:summary>
+</j:jelly>

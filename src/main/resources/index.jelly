@@ -1,0 +1,4 @@
+<?jelly escape-by-default='true'?>
+<div>
+    Integrates Jenkins with TestRail by automatically publishing test results from Jenkins to TestRail (https://www.railflow.io)
+</div>

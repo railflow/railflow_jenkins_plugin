@@ -1,0 +1,66 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core"
+         xmlns:f="/lib/form">
+    <f:section title="${%railflowGlobalSettingsLabel}">
+        <f:section title="${%railflowLicense}">
+            <f:entry title="${%licenseTitle}"/>
+            <f:radioBlock title="${%licenseLabel}" value="key" name="licenseGroup" checked="true" help="/plugin/railflow-jenkins-plugin/help/licenseKey.html">
+                <f:entry field="licenseKey">
+                    <f:password id='railflow-license-key' field="licenseKey" name="licenseKey"/>
+                </f:entry>
+                <f:entry>
+                    <div style="float:right">
+                        <input type="button" name="activateLicense" value="${%activateLicenseButton}" class="yui-button validate-button"
+                               onclick="activateLicense('${descriptor.descriptorFullUrl}')"/>
+                    </div>
+                    <div id="railflow-license-activate-spinner" style="display:none;">
+                        <img src="${imagesURL}/spinner.gif"/>
+                    </div>
+                    <div id="railflow-license-activate-error"><!-- this is where the error message goes --></div>
+                </f:entry>
+            </f:radioBlock>
+            <f:radioBlock title="${%licenseFile}" value="file" name="licenseGroup" checked="false" help="/plugin/railflow-jenkins-plugin/help/licenseFile.html">
+                <f:entry field="licenseFile">
+                    <input id="railflow-license-chooser" name="licenseFile" type="file" size="600" accept=".skm"/>
+                </f:entry>
+                <f:entry>
+                    <div style="float:right">
+                        <input id="railflow-upload-license-button" value="${%activateLicenseButton}" name="licenseUploadBut" type="button"
+                               class="yui-button validate-button"
+                               onclick="uploadLicense('${descriptor.descriptorFullUrl}')"/>
+                    </div>
+                    <div id="railflow-license-upload-spinner" style="display:none;">
+                        <img src="${imagesURL}/spinner.gif"/>
+                    </div>
+                    <div id="railflow-license-upload-error"></div>
+                </f:entry>
+            </f:radioBlock>
+            <f:entry title="${%licenseExpirationDate}">
+                <f:readOnlyTextbox id="expirationDate" value="${instance.getLicenseExpirationDateString()}"/>
+            </f:entry>
+        </f:section>
+        <f:invisibleEntry>
+            <f:checkbox id="onlineActivation" field="onlineActivation"/>
+            <f:checkbox id="trial" field="trial"/>
+            <f:password id="licenseContent" field="licenseContent"/>
+        </f:invisibleEntry>
+        <f:section title="${%testRailServers}">
+            <f:entry>
+                <f:repeatableProperty field="testRailServers" header="${%testRailServerHeader}" add="${%addServerLabel}">
+                    <f:block>
+                        <div align="right">
+                            <f:repeatableDeleteButton value="${%deleteServerLabel}"/>
+                        </div>
+                    </f:block>
+                </f:repeatableProperty>
+            </f:entry>
+        </f:section>
+    </f:section>
+    <f:advanced>
+        <f:entry title="${%uploadStatisticsLabel}" field="uploadStatistics">
+            <f:checkbox name="uploadStatistics" checked="${instance.isUploadStatistics()}" default="true"/>
+        </f:entry>
+    </f:advanced>
+    <script src="${rootURL}/plugin/railflow-jenkins-plugin/config.js" type="text/javascript"/>
+    <link rel="stylesheet" href="${rootURL}/plugin/railflow-jenkins-plugin/css/style.css"/>
+</j:jelly>

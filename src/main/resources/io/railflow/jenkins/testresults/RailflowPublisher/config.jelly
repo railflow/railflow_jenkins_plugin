@@ -1,0 +1,170 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core"
+         xmlns:d="jelly:define"
+         xmlns:f="/lib/form">
+    <f:block>
+        <d:taglib uri="local">
+            <f:entry title="${%testRailServerLabel}" field="testRailServerName">
+                <select name="testRailServerName" class="setting-input">
+                    <j:forEach var="trServer" items="${descriptor.testRailServerNames}">
+                        <f:option selected="${trServer.name == instance.testRailServerName}" value="${trServer.name}">
+                            ${trServer.name} (${trServer.testRailUrl})
+                        </f:option>
+                    </j:forEach>
+                </select>
+            </f:entry>
+            <f:entry title="${%projectLabel}" field="testRailProjectName">
+                <f:textbox name="testRailProjectName" default="project" value="${instance.getTestRailProjectName()}"/>
+            </f:entry>
+
+            <f:entry title="${%failBuildIfUploadUnsuccessfulLabel}" field="failIfUploadFailed">
+                <f:checkbox name="failIfUploadFailed" checked="${instance.isFailIfUploadFailed()}"/>
+            </f:entry>
+            <f:entry field="overriddenUserName" title="${%overriddenUserNameLabel}">
+                <f:textbox name="overriddenUserName" value="${instance.getOverriddenUserName()}"/>
+            </f:entry>
+            <f:entry field="overriddenPassword" title="${%overriddenPasswordLabel}">
+                <f:password field="overriddenPassword" name="overriddenPassword" value="${instance.getOverriddenPassword()}"/>
+            </f:entry>
+
+            <f:entry title="${%listOftestRailUploadConfigTitle}" description="${%listOfUploadConfigDescription}">
+                <f:repeatable var="jobConfigurations" items="${instance.jobConfigurations}" add="${%addMoreButtonLabel}" minimum="1">
+
+                    <table width="100%" title="${%testRailUploadConfigLabel}">
+
+                        <f:entry title="${%resultFilePatternLabel}" field="resultFilePattern"
+                                 description="${%description('https://ant.apache.org/manual/Types/fileset.html')}">
+                            <f:textbox name="resultFilePattern" default="**/surefire-reports/*.xml" value="${jobConfigurations.getResultFilePattern()}"/>
+                        </f:entry>
+                        <f:entry title="${%formatLabel}" field="testReportFormat">
+                            <select name="testReportFormat" class="setting-input">
+                                <j:forEach var="format" items="${descriptor.reportFormats}">
+                                    <f:option selected="${format.key == jobConfigurations.testReportFormat}"
+                                              value="${format.key}">
+                                        ${format.value}
+                                    </f:option>
+                                </j:forEach>
+                            </select>
+                        </f:entry>
+
+                        <f:entry title="${%searchModeLabel}" field="searchMode">
+                            <select checkdependson="searchMode"
+                                    checkurl="descriptorByName/io.railflow.jenkins.testresults.RailflowPublisher/checkSearchMode"
+                                    name="_.searchMode" class="setting-input validated">
+                                <option selected="${'' == jobConfigurations.searchMode}" hidden="true"
+                                        value=""></option>
+                                <j:forEach var="mode" items="${descriptor.searchModes}">
+                                    <f:option selected="${mode.key == jobConfigurations.searchMode}"
+                                              value="${mode.key}">
+                                        ${mode.value}
+                                    </f:option>
+                                </j:forEach>
+                            </select>
+                        </f:entry>
+
+                        <f:entry title="${%testPathLabel}" field="testCasePath">
+                            <f:textbox name="testCasePath" value="${jobConfigurations.getTestCasePath()}"/>
+                        </f:entry>
+
+                        <f:entry title="${%testPlanLabel}" field="testPlanName">
+                            <f:textbox name="testPlanName" value="${jobConfigurations.getTestPlanName()}"/>
+                        </f:entry>
+
+                        <f:entry title="${%testRunLabel}" field="testRunName">
+                            <f:textbox name="testRunName" value="${jobConfigurations.getTestRunName()}" default="$${JOB_NAME}-$${BUILD_NUMBER}"/>
+                        </f:entry>
+
+                        <f:entry title="${%runIdLabel}" field="runId">
+                            <f:textbox name="runId" value="${jobConfigurations.getRunId()}"/>
+                        </f:entry>
+
+                        <f:entry title="${%milestonePathLabel}" field="milestonePath">
+                            <f:textbox name="milestonePath" value="${jobConfigurations.getMilestonePath()}"/>
+                        </f:entry>
+
+                        <f:entry title="${%smartTestFailureAssignmentLabel}" field="smartTestFailureAssignment">
+                            <f:textbox name="smartTestFailureAssignment" value="${jobConfigurations.getSmartTestFailureAssignment()}"/>
+                        </f:entry>
+
+                        <f:advanced>
+                            <f:entry title="${%caseTypeLabel}" field="testCaseType">
+                                <f:textbox name="testCaseType" value="${jobConfigurations.getTestCaseType()}"/>
+                            </f:entry>
+
+                            <f:entry title="${%casePriorityLabel}" field="testCasePriority">
+                                <f:textbox name="testCasePriority" value="${jobConfigurations.getTestCasePriority()}"/>
+                            </f:entry>
+
+                            <f:entry title="${%templateNameLabel}" field="testCaseTemplate">
+                                <f:textbox name="testCaseTemplate" value="${jobConfigurations.getTestCaseTemplate()}"/>
+                            </f:entry>
+
+                            <f:entry title="${%testRailMappingsLabel}" field="testCaseCustomFields">
+                                <f:textarea name="testCaseCustomFields" value="${jobConfigurations.getTestCaseCustomFields()}"/>
+                            </f:entry>
+
+                            <f:entry title="${%customResultFieldsLabel}" field="testResultCustomFields">
+                                <f:textarea name="testResultCustomFields" value="${jobConfigurations.getTestResultCustomFields()}"/>
+                            </f:entry>
+
+                            <f:entry title="${%configurationNamesLabel}" field="configurationNames">
+                                <f:textarea name="configurationNames" value="${jobConfigurations.getConfigurationNames()}"/>
+                            </f:entry>
+
+                            <f:entry title="${%caseSearchFieldLabel}" field="caseSearchField">
+                                <f:textbox name="caseSearchField" value="${jobConfigurations.getCaseSearchField()}"/>
+                            </f:entry>
+
+                            <f:entry title="${%tagsFieldNameLabel}" field="tagsFieldName">
+                                <f:textbox name="tagsFieldName" value="${jobConfigurations.getTagsFieldName()}"/>
+                            </f:entry>
+
+                            <f:entry title="${%uploadModeLabel}" field="uploadMode">
+                                <select name="uploadMode" class="setting-input">
+                                    <j:forEach var="mode" items="${descriptor.uploadModes}">
+                                        <f:option selected="${mode.key == jobConfigurations.uploadMode}"
+                                                  value="${mode.key}">
+                                            ${mode.value}
+                                        </f:option>
+                                    </j:forEach>
+                                </select>
+                            </f:entry>
+
+                            <f:entry title="${%disableGrouping}" field="disableGrouping">
+                                <f:checkbox name="disableGrouping" checked="${jobConfigurations.isDisableGrouping()}"/>
+                            </f:entry>
+
+                            <f:entry title="${%closeRunLabel}" field="closeRun">
+                                <f:checkbox name="closeRun" checked="${jobConfigurations.isCloseRun()}"/>
+                            </f:entry>
+
+                            <f:entry title="${%closePlanLabel}" field="closePlan">
+                                <f:checkbox name="closePlan" checked="${jobConfigurations.isClosePlan()}"/>
+                            </f:entry>
+
+                            <f:entry title="${%fullCaseNamesAllowed}" field="fullCaseNamesAllowed">
+                                <f:checkbox name="fullCaseNamesAllowed" checked="${jobConfigurations.isFullCaseNamesAllowed()}"/>
+                            </f:entry>
+
+                        </f:advanced>
+
+                        <f:entry title="">
+                            <div align="right">
+                                <f:repeatableDeleteButton/>
+                            </div>
+                        </f:entry>
+                    </table>
+                </f:repeatable>
+            </f:entry>
+
+            <f:entry title="${%debugLogLabel}" field="debugLogEnabled">
+                <f:checkbox name="debugLogEnabled" checked="${instance.isDebugLogEnabled()}"/>
+            </f:entry>
+        </d:taglib>
+    </f:block>
+
+    <script src="${rootURL}/plugin/railflow-jenkins-plugin/config.js" type="text/javascript"/>
+</j:jelly>
+
+
+

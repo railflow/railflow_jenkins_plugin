@@ -187,8 +187,8 @@ public class RailflowJenkinsCli {
 
             final URLConnection connection = url.openConnection();
             connection.addRequestProperty("User-Agent", "Mozilla");
-            connection.setReadTimeout(5000);
-            connection.setConnectTimeout(5000);
+            connection.setReadTimeout(300_000);
+            connection.setConnectTimeout(60_000);
             
             final InputStream stream = connection.getInputStream();
             Files.copy(stream, target.toPath(), StandardCopyOption.REPLACE_EXISTING);

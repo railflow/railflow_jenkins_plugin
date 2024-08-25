@@ -1,63 +1,83 @@
 function uploadLicense(descriptorUrl) {
     try {
-        const fileSelector = document.getElementById("railflow-license-chooser");
-        const data = new FormData();
-        data.append("licenseFile", fileSelector.files[0])
-        const request = new XMLHttpRequest();
-        request.open("POST", descriptorUrl + "/uploadLicenseFile");
-        request.setRequestHeader("Jenkins-Crumb", crumb.value);
-        const errorDiv = document.getElementById("railflow-license-upload-error");
+        const error = document.getElementById("railflow-license-upload-error");
         const spinner = document.getElementById("railflow-license-upload-spinner");
-        errorDiv.classList.remove("error", "success");
-        errorDiv.style.display = "none";
-        spinner.style.display = "block";
-        request.onload = (e) => {
+        clearStatus(error, spinner);
+
+        const files = document.getElementById("railflow-license-chooser");
+        const data = new FormData();
+        data.append("licenseFile", files.files[0])
+
+        const request = new Request(descriptorUrl + "/uploadLicenseFile");
+        const options = {
+            headers: {
+                "Accept": "application/json",
+                "Jenkins-Crumb": crumb.value
+            },
+            method: "POST",
+            body: data
+        };
+
+        fetch(request, options)
+        .then(function(response) {
             spinner.style.display = "none";
-            if (e.target.status >= 200 && e.target.status < 400) {
-                const responseJson = JSON.parse(e.target.responseText);
-                setLicenseInfo(responseJson.data);
-                showMessage(errorDiv, "success", responseJson.data.message);
+            if (response.status >= 200 && response.status < 400) {
+                response.json().then(function(json) {
+                    setLicenseInfo(json.data);
+                    showMessage(error, "success", json.data.message);
+                });
             } else {
-                showMessage(errorDiv, "error", e.target.responseText);
+                response.text().then(function(text) {
+                    showMessage(error, "error", text);
+                });
             }
-        }
-        request.onerror = (e) => {
-            spinner.style.display = "none";
-            errorDiv.style.display = "none";
-        }
-        request.send(data);
+        })
+        .catch(function(response) {
+            resetStatus(error, spinner);
+            console.error(response);
+        });
     } catch (e) {
         console.error(e);
     }
 }
 
-function showMessage(div, style, msg) {
-    div.style.display = "block";
-    div.classList.add(style);
-    div.innerHTML = msg;
-}
-
 function activateLicense(descriptorUrl) {
     try {
-        const parameters = {};
-        parameters["licenseKey"] = document.getElementById('railflow-license-key').value;
+        const error = document.getElementById("railflow-license-activate-error");
         const spinner = document.getElementById("railflow-license-activate-spinner");
-        const errorDiv = document.getElementById("railflow-license-activate-error");
-        errorDiv.classList.remove("error", "success");
-        errorDiv.style.display = "none";
-        spinner.style.display = "block";
+        clearStatus(error, spinner);
 
-        new Ajax.Request(descriptorUrl + "/activateLicenseKey", {
-            parameters: parameters,
-            onComplete: function (rsp) {
-                spinner.style.display = "none";
-                if (rsp.status >= 200 && rsp.status < 400) {
-                    setLicenseInfo(rsp.responseJSON.data);
-                    showMessage(errorDiv, "success", rsp.responseJSON.data.message)
-                } else {
-                    showMessage(errorDiv, "error", rsp.responseText);
-                }
+        const parameters = new URLSearchParams({
+            licenseKey: document.getElementById('railflow-license-key').value
+        });
+
+        const request = new Request(descriptorUrl + "/activateLicenseKey?" + parameters.toString());
+        const options = {
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Jenkins-Crumb": crumb.value
+            },
+            method: "POST"
+        };
+
+        fetch(request, options)
+        .then(function(response) {
+            spinner.style.display = "none";
+            if (response.status >= 200 && response.status < 400) {
+                response.json().then(function(json) {
+                    setLicenseInfo(json.data);
+                    showMessage(error, "success", json.data.message);
+                });
+            } else {
+                response.text().then(function(text) {
+                    showMessage(error, "error", text);
+                });
             }
+        })
+        .catch(function(response) {
+            resetStatus(error, spinner);
+            console.error(response);
         });
     } catch (e) {
         console.error(e);
@@ -69,4 +89,21 @@ function setLicenseInfo(data) {
     document.getElementById("licenseContent").value = data.licenseContent;
     document.getElementById("onlineActivation").checked = (data.onlineActivation === 'true');
     document.getElementById("trial").checked = (data.trial === 'true');
+}
+
+function clearStatus(error, spinner) {
+    error.classList.remove("error", "success");
+    error.style.display = "none";
+    spinner.style.display = "block";
+}
+
+function resetStatus(error, spinner) {
+    error.style.display = "none";
+    spinner.style.display = "none";
+}
+
+function showMessage(div, style, msg) {
+    div.style.display = "block";
+    div.classList.add(style);
+    div.innerHTML = msg;
 }

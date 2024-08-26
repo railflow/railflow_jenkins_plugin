@@ -77,10 +77,6 @@
             <id>repo.jenkins-ci.org</id>
             <url>https://repo.jenkins-ci.org/public/</url>
         </repository>
-        <repository>
-            <id>github-railflow</id>
-            <url>https://maven.pkg.github.com/railflow/*</url>
-        </repository>
     </repositories>
 
     <pluginRepositories>

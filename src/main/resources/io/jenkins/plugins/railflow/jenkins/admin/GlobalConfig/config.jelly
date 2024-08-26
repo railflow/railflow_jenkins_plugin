@@ -1,6 +1,7 @@
 <?jelly escape-by-default='true'?>
 <j:jelly xmlns:j="jelly:core"
-         xmlns:f="/lib/form">
+         xmlns:f="/lib/form"
+         xmlns:l="/lib/layout">
     <f:section title="${%railflowGlobalSettingsLabel}">
         <f:section title="${%railflowLicense}">
             <f:entry title="${%licenseTitle}"/>
@@ -14,7 +15,7 @@
                                onclick="activateLicense('${descriptor.descriptorFullUrl}')"/>
                     </div>
                     <div id="railflow-license-activate-spinner" style="display:none;">
-                        <img src="${imagesURL}/spinner.gif"/>
+                        <l:spinner />
                     </div>
                     <div id="railflow-license-activate-error"><!-- this is where the error message goes --></div>
                 </f:entry>
@@ -30,7 +31,7 @@
                                onclick="uploadLicense('${descriptor.descriptorFullUrl}')"/>
                     </div>
                     <div id="railflow-license-upload-spinner" style="display:none;">
-                        <img src="${imagesURL}/spinner.gif"/>
+                        <l:spinner />
                     </div>
                     <div id="railflow-license-upload-error"></div>
                 </f:entry>

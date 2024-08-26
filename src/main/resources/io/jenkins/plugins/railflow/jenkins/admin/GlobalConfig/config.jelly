@@ -4,7 +4,7 @@
     <f:section title="${%railflowGlobalSettingsLabel}">
         <f:section title="${%railflowLicense}">
             <f:entry title="${%licenseTitle}"/>
-            <f:radioBlock title="${%licenseLabel}" value="key" name="licenseGroup" checked="true" help="/plugin/railflow-jenkins-plugin/help/licenseKey.html">
+            <f:radioBlock title="${%licenseLabel}" value="key" name="licenseGroup" checked="true" help="/plugin/railflow-testrail/help/licenseKey.html">
                 <f:entry field="licenseKey">
                     <f:password id='railflow-license-key' field="licenseKey" name="licenseKey"/>
                 </f:entry>
@@ -19,7 +19,7 @@
                     <div id="railflow-license-activate-error"><!-- this is where the error message goes --></div>
                 </f:entry>
             </f:radioBlock>
-            <f:radioBlock title="${%licenseFile}" value="file" name="licenseGroup" checked="false" help="/plugin/railflow-jenkins-plugin/help/licenseFile.html">
+            <f:radioBlock title="${%licenseFile}" value="file" name="licenseGroup" checked="false" help="/plugin/railflow-testrail/help/licenseFile.html">
                 <f:entry field="licenseFile">
                     <input id="railflow-license-chooser" name="licenseFile" type="file" size="600" accept=".skm"/>
                 </f:entry>
@@ -61,6 +61,6 @@
             <f:checkbox name="uploadStatistics" checked="${instance.isUploadStatistics()}" default="true"/>
         </f:entry>
     </f:advanced>
-    <script src="${rootURL}/plugin/railflow-jenkins-plugin/config.js" type="text/javascript"/>
-    <link rel="stylesheet" href="${rootURL}/plugin/railflow-jenkins-plugin/css/style.css"/>
+    <script src="${rootURL}/plugin/railflow-testrail/config.js" type="text/javascript"/>
+    <link rel="stylesheet" href="${rootURL}/plugin/railflow-testrail/css/style.css"/>
 </j:jelly>

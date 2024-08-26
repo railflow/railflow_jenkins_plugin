@@ -49,7 +49,7 @@
 
                         <f:entry title="${%searchModeLabel}" field="searchMode">
                             <select checkdependson="searchMode"
-                                    checkurl="descriptorByName/io.railflow.jenkins.testresults.RailflowPublisher/checkSearchMode"
+                                    checkurl="descriptorByName/io.jenkins.plugins.railflow.jenkins.testresults.RailflowPublisher/checkSearchMode"
                                     name="_.searchMode" class="setting-input validated">
                                 <option selected="${'' == jobConfigurations.searchMode}" hidden="true"
                                         value=""></option>
@@ -163,7 +163,7 @@
         </d:taglib>
     </f:block>
 
-    <script src="${rootURL}/plugin/railflow-jenkins-plugin/config.js" type="text/javascript"/>
+    <script src="${rootURL}/plugin/railflow-testrail/config.js" type="text/javascript"/>
 </j:jelly>
 
 

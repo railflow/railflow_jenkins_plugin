@@ -15,7 +15,7 @@ import jenkins.model.Jenkins;
  */
 public class RailflowRunLinkAction implements Action, Serializable {
 
-	private static final String RAILFLOW_ICON_PATH = Jenkins.RESOURCE_PATH + "/plugin/railflow-jenkins-plugin/icons/railflow-48.png";
+	private static final String RAILFLOW_ICON_PATH = Jenkins.RESOURCE_PATH + "/plugin/railflow-testrail/icons/railflow-48.png";
 
 	private final String testRailRunUrl;
 

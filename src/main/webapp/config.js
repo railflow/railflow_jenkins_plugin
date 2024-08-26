@@ -1,4 +1,6 @@
-function uploadLicense(descriptorUrl) {
+const descriptorUrl = "/jenkins/manage/descriptorByName/io.jenkins.plugins.railflow.jenkins.admin.GlobalConfig";
+
+function uploadLicense() {
     try {
         const error = document.getElementById("railflow-license-upload-error");
         const spinner = document.getElementById("railflow-license-upload-spinner");
@@ -41,7 +43,7 @@ function uploadLicense(descriptorUrl) {
     }
 }
 
-function activateLicense(descriptorUrl) {
+function activateLicense() {
     try {
         const error = document.getElementById("railflow-license-activate-error");
         const spinner = document.getElementById("railflow-license-activate-spinner");
@@ -107,3 +109,6 @@ function showMessage(div, style, msg) {
     div.classList.add(style);
     div.innerHTML = msg;
 }
+
+document.getElementById("railflow-activate-license-button").onclick = activateLicense;
+document.getElementById("railflow-upload-license-button").onclick = uploadLicense;

@@ -11,8 +11,7 @@
                 </f:entry>
                 <f:entry>
                     <div style="float:right">
-                        <input type="button" name="activateLicense" value="${%activateLicenseButton}" class="yui-button validate-button"
-                               onclick="activateLicense('${descriptor.descriptorFullUrl}')"/>
+                        <button id="railflow-activate-license-button" type="button" class="jenkins-button validate-button" name="activateLicense">${%activateLicenseButton}</button>
                     </div>
                     <div id="railflow-license-activate-spinner" style="display:none;">
                         <l:spinner />
@@ -26,9 +25,7 @@
                 </f:entry>
                 <f:entry>
                     <div style="float:right">
-                        <input id="railflow-upload-license-button" value="${%activateLicenseButton}" name="licenseUploadBut" type="button"
-                               class="yui-button validate-button"
-                               onclick="uploadLicense('${descriptor.descriptorFullUrl}')"/>
+                        <button id="railflow-upload-license-button" type="button" class="jenkins-button validate-button" name="uploadLicense">${%uploadLicenseButton}</button>
                     </div>
                     <div id="railflow-license-upload-spinner" style="display:none;">
                         <l:spinner />
